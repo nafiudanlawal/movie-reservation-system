@@ -1,6 +1,7 @@
 package com.nafiu.moviereservationservice.reservation.model;
 
 import com.nafiu.moviereservationservice.auth.model.User;
+import com.nafiu.moviereservationservice.movies.model.ShowTime;
 import jakarta.persistence.*;
 
 @Entity

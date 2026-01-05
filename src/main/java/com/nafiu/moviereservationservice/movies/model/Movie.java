@@ -1,6 +1,6 @@
 package com.nafiu.moviereservationservice.movies.model;
 
-import com.nafiu.moviereservationservice.reservation.model.ShowTime;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -25,9 +25,11 @@ public class Movie {
     private Integer year;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     private Genre genre;
 
     @OneToMany(mappedBy = "movie")
+    @JsonBackReference
     List<ShowTime> showTimes;
 
 
@@ -47,7 +49,7 @@ public class Movie {
         this.year = year;
         this.genre = genre;
         this.posterImage = posterImage;
-        createdAt = updatedAt = new Date();
+        this.createdAt = this.updatedAt = new Date();
     }
 
     public Movie(Integer id,
@@ -131,6 +133,14 @@ public class Movie {
 
     public void setPosterImage(String posterImage) {
         this.posterImage = posterImage;
+    }
+
+    public List<ShowTime> getShowTimes() {
+        return showTimes;
+    }
+
+    public void setShowTimes(List<ShowTime> showTimes) {
+        this.showTimes = showTimes;
     }
 
     @Override

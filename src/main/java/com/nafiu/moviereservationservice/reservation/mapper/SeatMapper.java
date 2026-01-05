@@ -32,4 +32,12 @@ public class SeatMapper {
                 seat.getVenue()
         );
     }
+
+    public static SeatVenueResponseDto SeatToSeatVenueResponseDto(Seat seat) {
+        return new SeatVenueResponseDto(
+                seat.getId(),
+                seat.getLabel(),
+                seat.getDescription()
+        );
+    }
 }

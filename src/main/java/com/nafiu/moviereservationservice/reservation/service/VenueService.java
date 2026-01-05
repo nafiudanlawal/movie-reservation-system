@@ -23,24 +23,24 @@ public class VenueService {
         this.seatRepository = seatRepository;
     }
 
-    public VenueResponseDto createVenue(VenueCreateDto venueDto){
+    public VenueResponseDto createVenue(VenueCreateDto venueDto) {
         Venue venue = VenueMapper.VenueFromVenueCreateDto(venueDto);
         this.venueRepository.save(venue);
         return VenueMapper.VenueToVenueResponseDto(venue);
     }
 
-    public SeatResponseDto addSeatToVenue(Integer venueId, VenueSeatCreateDto venueSeatCreateDto){
+    public SeatVenueResponseDto addSeatToVenue(Integer venueId, VenueSeatCreateDto venueSeatCreateDto) throws EntityNotFoundException {
         var venueOptional = this.venueRepository.findById(venueId);
-        if(venueOptional.isEmpty()){
+        if (venueOptional.isEmpty()) {
             throw new EntityNotFoundException("Venue with id %d not found".formatted(venueId));
         }
         Venue venue = venueOptional.get();
         Seat seat = SeatMapper.SeatFromVenueSeatCreateDto(venueSeatCreateDto, venue);
         this.seatRepository.save(seat);
-        return SeatMapper.SeatToSeatResponseDto(seat);
+        return SeatMapper.SeatToSeatVenueResponseDto(seat);
     }
 
-    public List<VenueResponseDto> getVenues(){
+    public List<VenueResponseDto> getVenues() {
         return this.venueRepository
                 .findAll()
                 .stream()
@@ -48,43 +48,73 @@ public class VenueService {
                 .toList();
     }
 
-    public VenueResponseDto getVenue(Integer id){
+    public VenueResponseDto getVenue(Integer id) throws EntityNotFoundException {
         var venueOptional = this.venueRepository.findById(id);
-        if(venueOptional.isEmpty()){
+        if (venueOptional.isEmpty()) {
             throw new EntityNotFoundException("Venue with id %d not found".formatted(id));
         }
         return VenueMapper.VenueToVenueResponseDto(venueOptional.get());
     }
 
-    public VenueResponseDto updateVenue(Integer id, VenueUpdateDto venueDto){
+    public VenueResponseDto updateVenue(Integer id, VenueUpdateDto venueDto) throws EntityNotFoundException {
         var venueOptional = this.venueRepository.findById(id);
-        if(venueOptional.isEmpty()){
+        if (venueOptional.isEmpty()) {
             throw new EntityNotFoundException("Venue with id %d not found".formatted(id));
         }
         Venue venue = venueOptional.get();
-        if(venueDto.name() != null){
+        if (venueDto.name() != null) {
             venue.setName(venueDto.name());
         }
-        if(venueDto.address() != null){
+        if (venueDto.address() != null) {
             venue.setAddress(venueDto.address());
         }
         this.venueRepository.save(venue);
         return VenueMapper.VenueToVenueResponseDto(venue);
     }
 
-    public List<SeatResponseDto> getVenueSeats(Integer venueId) {
+    public List<SeatVenueResponseDto> getVenueSeats(Integer venueId) throws EntityNotFoundException {
         var venueOptional = this.venueRepository.findById(venueId);
-        if(venueOptional.isEmpty()){
+        if (venueOptional.isEmpty()) {
             throw new EntityNotFoundException("Venue with id %d not found".formatted(venueId));
         }
         return venueOptional.get()
                 .getSeats()
                 .stream()
-                .map(SeatMapper::SeatToSeatResponseDto)
+                .map(SeatMapper::SeatToSeatVenueResponseDto)
                 .toList();
     }
 
     public void deleteVenue(Integer id) {
         this.venueRepository.deleteById(id);
+    }
+
+    public void deleteVenueSeat(Integer venueId, Integer seatId) {
+        this.seatRepository.deleteByVenueIdAndId(venueId, seatId);
+    }
+
+    public SeatVenueResponseDto getVenueSeat(Integer venueId, Integer seatId)
+            throws EntityNotFoundException {
+        var seatOptional = this.seatRepository.findByVenueIdAndId(venueId, seatId);
+        if (seatOptional.isEmpty()) {
+            throw new EntityNotFoundException("Seat with id %d and venue %d not found".formatted(seatId, venueId));
+        }
+        return SeatMapper.SeatToSeatVenueResponseDto(seatOptional.get());
+    }
+
+    public SeatVenueResponseDto updateVenueSeat(Integer venueId, Integer seatId, SeatVenueUpdateDto seatVenueUpdateDto)
+            throws EntityNotFoundException {
+        var seatOptional = this.seatRepository.findByVenueIdAndId(venueId, seatId);
+        if (seatOptional.isEmpty()) {
+            throw new EntityNotFoundException("Seat with id %d and venue %d not found".formatted(seatId, venueId));
+        }
+        Seat seat = seatOptional.get();
+        if (seatVenueUpdateDto.label() != null) {
+            seat.setLabel(seatVenueUpdateDto.label());
+        }
+        if (seatVenueUpdateDto.description() != null) {
+            seat.setDescription(seatVenueUpdateDto.description());
+        }
+        this.seatRepository.save(seat);
+        return SeatMapper.SeatToSeatVenueResponseDto(seat);
     }
 }

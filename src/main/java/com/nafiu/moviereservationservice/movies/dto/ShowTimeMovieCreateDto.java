@@ -1,4 +1,4 @@
-package com.nafiu.moviereservationservice.reservation.dto;
+package com.nafiu.moviereservationservice.movies.dto;
 
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Future;
@@ -7,15 +7,12 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public record ShowTimeCreateDto(
+public record ShowTimeMovieCreateDto(
         @Future
         LocalDate date,
 
         @NotNull
         LocalTime time,
-
-        @NotNull
-        Integer movieId,
 
         @NotNull
         Integer venueId,

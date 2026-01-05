@@ -1,19 +1,22 @@
-package com.nafiu.moviereservationservice.reservation;
+package com.nafiu.moviereservationservice.movies;
 
-import com.nafiu.moviereservationservice.reservation.dto.ShowTimeCreateDto;
-import com.nafiu.moviereservationservice.reservation.dto.ShowTimeResponseDto;
-import com.nafiu.moviereservationservice.reservation.service.ShowTimeService;
+import com.nafiu.moviereservationservice.movies.dto.ShowTimeCreateDto;
+import com.nafiu.moviereservationservice.movies.dto.ShowTimeResponseDto;
+import com.nafiu.moviereservationservice.movies.service.ShowTimeService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/showTimes")
+@RequestMapping("/show-times")
 public class ShowTimeController {
+
     private final ShowTimeService service;
 
+    @Autowired
     public ShowTimeController(ShowTimeService service) {
         this.service = service;
     }
