@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: movie-reservation-service
+  datasource:
+    username: postgres
+    password: admin
+    url: jdbc:postgresql://localhost:5432/movie_reservation
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+
+logging:
+  level:
+    web: debug
+    sql: debug
