@@ -1,10 +1,7 @@
 package com.nafiu.moviereservationservice.movies.test;
 
-import com.nafiu.moviereservationservice.movies.dto.GenreCreateDto;
-import com.nafiu.moviereservationservice.movies.dto.GenreResponseDto;
 import com.nafiu.moviereservationservice.movies.dto.MovieCreateDto;
 import com.nafiu.moviereservationservice.movies.dto.MovieResponseDto;
-import com.nafiu.moviereservationservice.movies.mapper.GenreMapper;
 import com.nafiu.moviereservationservice.movies.mapper.MovieMapper;
 import com.nafiu.moviereservationservice.movies.model.Genre;
 import com.nafiu.moviereservationservice.movies.model.Movie;

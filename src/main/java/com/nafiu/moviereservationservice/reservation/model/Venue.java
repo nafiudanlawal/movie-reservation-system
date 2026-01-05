@@ -1,5 +1,6 @@
 package com.nafiu.moviereservationservice.reservation.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class Venue {
     String address;
 
     @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL)
+    @JsonBackReference
     List<Seat> seats;
 
     public Venue() {}

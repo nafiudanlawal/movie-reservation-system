@@ -3,6 +3,7 @@ package com.nafiu.moviereservationservice.reservation;
 import com.nafiu.moviereservationservice.reservation.dto.ShowTimeCreateDto;
 import com.nafiu.moviereservationservice.reservation.dto.ShowTimeResponseDto;
 import com.nafiu.moviereservationservice.reservation.service.ShowTimeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class ShowTimeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ShowTimeResponseDto createShowTime(@RequestBody ShowTimeCreateDto showTimeCreateDto) {
+    public ShowTimeResponseDto createShowTime(@RequestBody @Valid ShowTimeCreateDto showTimeCreateDto) {
         return this.service.createShowTime(showTimeCreateDto);
     }
 

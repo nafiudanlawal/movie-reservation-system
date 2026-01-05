@@ -3,6 +3,7 @@ package com.nafiu.moviereservationservice.reservation;
 import com.nafiu.moviereservationservice.reservation.dto.ReservationCreateDto;
 import com.nafiu.moviereservationservice.reservation.dto.ReservationResponseDto;
 import com.nafiu.moviereservationservice.reservation.service.ReservationService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class ReservationController {
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ReservationResponseDto createReservation(@RequestBody ReservationCreateDto reservationDto){
+    public ReservationResponseDto createReservation(@RequestBody @Valid ReservationCreateDto reservationDto){
         return this.service.createReservation(reservationDto);
     }
 

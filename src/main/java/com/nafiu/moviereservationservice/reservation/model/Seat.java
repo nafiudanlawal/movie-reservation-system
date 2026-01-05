@@ -1,5 +1,6 @@
 package com.nafiu.moviereservationservice.reservation.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -13,6 +14,7 @@ public class Seat {
     String description;
     String label;
     @ManyToOne
+    @JsonBackReference
     Venue venue;
 
     public Seat() {}

@@ -29,13 +29,13 @@ public class VenueService {
         return VenueMapper.VenueToVenueResponseDto(venue);
     }
 
-    public SeatResponseDto addSeatToVenue(Integer venueId, SeatCreateDto seatCreateDto){
+    public SeatResponseDto addSeatToVenue(Integer venueId, VenueSeatCreateDto venueSeatCreateDto){
         var venueOptional = this.venueRepository.findById(venueId);
         if(venueOptional.isEmpty()){
             throw new EntityNotFoundException("Venue with id %d not found".formatted(venueId));
         }
         Venue venue = venueOptional.get();
-        Seat seat = SeatMapper.SeatFromSeatCreateDto(seatCreateDto, venue);
+        Seat seat = SeatMapper.SeatFromVenueSeatCreateDto(venueSeatCreateDto, venue);
         this.seatRepository.save(seat);
         return SeatMapper.SeatToSeatResponseDto(seat);
     }
@@ -82,5 +82,9 @@ public class VenueService {
                 .stream()
                 .map(SeatMapper::SeatToSeatResponseDto)
                 .toList();
+    }
+
+    public void deleteVenue(Integer id) {
+        this.venueRepository.deleteById(id);
     }
 }

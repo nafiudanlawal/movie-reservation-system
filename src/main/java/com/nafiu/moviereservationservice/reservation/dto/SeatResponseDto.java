@@ -4,6 +4,7 @@ import com.nafiu.moviereservationservice.reservation.model.Venue;
 public record SeatResponseDto(
         Integer id,
         String label,
-        String description
+        String description,
+        Venue venue
 ) {
 }

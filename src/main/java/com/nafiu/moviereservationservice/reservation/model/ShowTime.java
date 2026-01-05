@@ -3,8 +3,6 @@ package com.nafiu.moviereservationservice.reservation.model;
 
 import com.nafiu.moviereservationservice.movies.model.Movie;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Digits;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 

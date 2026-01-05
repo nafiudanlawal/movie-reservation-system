@@ -2,6 +2,7 @@ package com.nafiu.moviereservationservice.reservation;
 
 import com.nafiu.moviereservationservice.reservation.dto.*;
 import com.nafiu.moviereservationservice.reservation.service.VenueService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class VenueController {
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public VenueResponseDto createSeat(@RequestBody VenueCreateDto venueDto){
+    public VenueResponseDto createSeat(@RequestBody @Valid VenueCreateDto venueDto){
         return this.venueService.createVenue(venueDto);
     }
 
@@ -26,10 +27,10 @@ public class VenueController {
     public SeatResponseDto createVenueSeat(
             @PathVariable("id")
             Integer venueId,
-            @RequestBody
-            SeatCreateDto seatCreateDto
+            @RequestBody @Valid
+            VenueSeatCreateDto venueSeatCreateDto
     ){
-        return this.venueService.addSeatToVenue(venueId, seatCreateDto);
+        return this.venueService.addSeatToVenue(venueId, venueSeatCreateDto);
     }
 
     @GetMapping("/{id}/seats")
@@ -46,5 +47,10 @@ public class VenueController {
     @GetMapping("/{id}")
     public VenueResponseDto getVenue(@PathVariable("id")Integer id){
         return this.venueService.getVenue(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteVenue(@PathVariable("id")Integer id){
+        this.venueService.deleteVenue(id);
     }
 }
