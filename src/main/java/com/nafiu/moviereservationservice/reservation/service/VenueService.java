@@ -30,11 +30,9 @@ public class VenueService {
     }
 
     public SeatVenueResponseDto addSeatToVenue(Integer venueId, VenueSeatCreateDto venueSeatCreateDto) throws EntityNotFoundException {
-        var venueOptional = this.venueRepository.findById(venueId);
-        if (venueOptional.isEmpty()) {
-            throw new EntityNotFoundException("Venue with id %d not found".formatted(venueId));
-        }
-        Venue venue = venueOptional.get();
+        Venue venue = this.venueRepository.findById(venueId).orElseThrow(() ->
+                new EntityNotFoundException("Venue with id %d not found".formatted(venueId))
+        );
         Seat seat = SeatMapper.SeatFromVenueSeatCreateDto(venueSeatCreateDto, venue);
         this.seatRepository.save(seat);
         return SeatMapper.SeatToSeatVenueResponseDto(seat);
@@ -49,19 +47,16 @@ public class VenueService {
     }
 
     public VenueResponseDto getVenue(Integer id) throws EntityNotFoundException {
-        var venueOptional = this.venueRepository.findById(id);
-        if (venueOptional.isEmpty()) {
-            throw new EntityNotFoundException("Venue with id %d not found".formatted(id));
-        }
-        return VenueMapper.VenueToVenueResponseDto(venueOptional.get());
+        Venue venue = this.venueRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Venue with id %d not found".formatted(id))
+        );
+        return VenueMapper.VenueToVenueResponseDto(venue);
     }
 
     public VenueResponseDto updateVenue(Integer id, VenueUpdateDto venueDto) throws EntityNotFoundException {
-        var venueOptional = this.venueRepository.findById(id);
-        if (venueOptional.isEmpty()) {
-            throw new EntityNotFoundException("Venue with id %d not found".formatted(id));
-        }
-        Venue venue = venueOptional.get();
+        Venue venue = this.venueRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Venue with id %d not found".formatted(id))
+        );
         if (venueDto.name() != null) {
             venue.setName(venueDto.name());
         }
@@ -73,11 +68,10 @@ public class VenueService {
     }
 
     public List<SeatVenueResponseDto> getVenueSeats(Integer venueId) throws EntityNotFoundException {
-        var venueOptional = this.venueRepository.findById(venueId);
-        if (venueOptional.isEmpty()) {
-            throw new EntityNotFoundException("Venue with id %d not found".formatted(venueId));
-        }
-        return venueOptional.get()
+        Venue venue = this.venueRepository.findById(venueId).orElseThrow(() ->
+                new EntityNotFoundException("Venue with id %d not found".formatted(venueId))
+        );
+        return venue
                 .getSeats()
                 .stream()
                 .map(SeatMapper::SeatToSeatVenueResponseDto)
@@ -94,20 +88,17 @@ public class VenueService {
 
     public SeatVenueResponseDto getVenueSeat(Integer venueId, Integer seatId)
             throws EntityNotFoundException {
-        var seatOptional = this.seatRepository.findByVenueIdAndId(venueId, seatId);
-        if (seatOptional.isEmpty()) {
-            throw new EntityNotFoundException("Seat with id %d and venue %d not found".formatted(seatId, venueId));
-        }
-        return SeatMapper.SeatToSeatVenueResponseDto(seatOptional.get());
+        Seat seat = this.seatRepository.findByVenueIdAndId(venueId, seatId).orElseThrow(() ->
+                new EntityNotFoundException("Seat with id %d and venue %d not found".formatted(seatId, venueId))
+        );
+        return SeatMapper.SeatToSeatVenueResponseDto(seat);
     }
 
     public SeatVenueResponseDto updateVenueSeat(Integer venueId, Integer seatId, SeatVenueUpdateDto seatVenueUpdateDto)
             throws EntityNotFoundException {
-        var seatOptional = this.seatRepository.findByVenueIdAndId(venueId, seatId);
-        if (seatOptional.isEmpty()) {
-            throw new EntityNotFoundException("Seat with id %d and venue %d not found".formatted(seatId, venueId));
-        }
-        Seat seat = seatOptional.get();
+        Seat seat = this.seatRepository.findByVenueIdAndId(venueId, seatId).orElseThrow(() ->
+                new EntityNotFoundException("Seat with id %d and venue %d not found".formatted(seatId, venueId))
+        );
         if (seatVenueUpdateDto.label() != null) {
             seat.setLabel(seatVenueUpdateDto.label());
         }

@@ -2,9 +2,11 @@ package com.nafiu.moviereservationservice.movies.service;
 
 import com.nafiu.moviereservationservice.movies.dto.*;
 import com.nafiu.moviereservationservice.movies.mapper.ShowTimeMapper;
+import com.nafiu.moviereservationservice.movies.model.Movie;
 import com.nafiu.moviereservationservice.movies.model.ShowTime;
 import com.nafiu.moviereservationservice.movies.repository.MovieRepository;
 import com.nafiu.moviereservationservice.movies.repository.ShowTimeRepository;
+import com.nafiu.moviereservationservice.reservation.model.Venue;
 import com.nafiu.moviereservationservice.reservation.repository.VenueRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.TransactionScoped;
@@ -30,22 +32,16 @@ public class ShowTimeService {
 
     @TransactionScoped
     public ShowTimeResponseDto createShowTime(ShowTimeCreateDto ShowTimeDto) {
-        var venueOptional = this.venueRepository.findById(ShowTimeDto.venueId());
-        if (venueOptional.isEmpty()) {
-            throw new EntityNotFoundException(
-                    "Venue with id: %s not found".formatted(ShowTimeDto.venueId())
-            );
-        }
-        var movieOptional = this.movieRepository.findById(ShowTimeDto.movieId());
-        if (movieOptional.isEmpty()) {
-            throw new EntityNotFoundException(
-                    "Movie with id: %s not found".formatted(ShowTimeDto.movieId())
-            );
-        }
+        Venue venue = this.venueRepository.findById(ShowTimeDto.venueId()).orElseThrow(() ->
+                new EntityNotFoundException("Venue with id: %s not found".formatted(ShowTimeDto.venueId()))
+        );
+        Movie movie = this.movieRepository.findById(ShowTimeDto.movieId()).orElseThrow(() ->
+                new EntityNotFoundException("Movie with id: %s not found".formatted(ShowTimeDto.movieId())
+                ));
         ShowTime showTime = ShowTimeMapper.showTimeFromShowTimeCreateDto(
                 ShowTimeDto,
-                movieOptional.get(),
-                venueOptional.get()
+                movie,
+                venue
         );
         this.showTimeRepository.save(showTime);
         return ShowTimeMapper.showTimeToShowTimeResponseDto(showTime);
@@ -66,24 +62,17 @@ public class ShowTimeService {
 
 
     public ShowTimeResponseDto getShowTime(Integer showTimeId) {
-        var showTimeOptional = this.showTimeRepository.findById(showTimeId);
-        if (showTimeOptional.isEmpty()) {
-            throw new EntityNotFoundException(
-                    "Showtime with id: %s not found".formatted(showTimeId)
-            );
-        }
-        return ShowTimeMapper.showTimeToShowTimeResponseDto(showTimeOptional.get());
+        ShowTime showTime = this.showTimeRepository.findById(showTimeId).orElseThrow(() ->
+                new EntityNotFoundException("Showtime with id: %s not found".formatted(showTimeId))
+        );
+        return ShowTimeMapper.showTimeToShowTimeResponseDto(showTime);
     }
 
     @TransactionScoped
     public ShowTimeResponseDto updateShowTime(Integer showTimeId, ShowTimeUpdateDto showTimeUpdateDto) {
-        var showTimeOptional = this.showTimeRepository.findById(showTimeId);
-        if (showTimeOptional.isEmpty()) {
-            throw new EntityNotFoundException (
-                    "Showtime with id: %s not found".formatted(showTimeId)
-            );
-        }
-        ShowTime showTime = showTimeOptional.get();
+        ShowTime showTime = this.showTimeRepository.findById(showTimeId).orElseThrow(() ->
+                new EntityNotFoundException("Showtime with id: %s not found".formatted(showTimeId))
+        );
 
         if (showTimeUpdateDto.time() != null) {
             showTime.setTime(showTimeUpdateDto.time());
@@ -95,37 +84,29 @@ public class ShowTimeService {
             showTime.setPrice(showTimeUpdateDto.price());
         }
         if (showTimeUpdateDto.venueId() != null) {
-            var venueOptional = this.venueRepository.findById(showTimeUpdateDto.venueId());
-            if (venueOptional.isEmpty()) {
-                throw new EntityNotFoundException(
-                        "Venue with id: %s not found".formatted(showTimeUpdateDto.venueId())
-                );
-            }
-            showTime.setVenue(venueOptional.get());
+            Venue venue = this.venueRepository.findById(showTimeUpdateDto.venueId()).orElseThrow(() ->
+                    new EntityNotFoundException("Venue with id: %s not found".formatted(showTimeUpdateDto.venueId()))
+            );
+            showTime.setVenue(venue);
         }
 
         if (showTimeUpdateDto.movieId() != null) {
-            var movieOptional = this.movieRepository.findById(showTimeUpdateDto.movieId());
-            if (movieOptional.isEmpty()) {
-                throw new EntityNotFoundException(
-                        "Movie with id: %s not found".formatted(showTimeUpdateDto.movieId())
-                );
-            }
-            showTime.setMovie(movieOptional.get());
+            Movie movie = this.movieRepository.findById(showTimeUpdateDto.movieId()).orElseThrow(() ->
+                    new EntityNotFoundException("Movie with id: %s not found".formatted(showTimeUpdateDto.movieId()))
+            );
+            showTime.setMovie(movie);
         }
 
         this.showTimeRepository.save(showTime);
         return ShowTimeMapper.showTimeToShowTimeResponseDto(showTime);
     }
 
-    public ShowTimeMovieResponseDto getMovieShowTime(Integer movieId, Integer showTimeId) throws EntityNotFoundException{
-        var showTimeOptional = this.showTimeRepository.findByMovieIdAndId(movieId, showTimeId);
-        if (showTimeOptional.isEmpty()) {
-            throw new EntityNotFoundException(
-                    "Showtime with id: %s and movie id %s not found".formatted(showTimeId, movieId)
-            );
-        }
-        return ShowTimeMapper.showTimeToShowTimeMovieResponseDto(showTimeOptional.get());
+    public ShowTimeMovieResponseDto getMovieShowTime(Integer movieId, Integer showTimeId) throws EntityNotFoundException {
+        ShowTime showTime = this.showTimeRepository.findByMovieIdAndId(movieId, showTimeId).orElseThrow(() ->
+                new EntityNotFoundException(
+                        "Showtime with id: %s and movie id %s not found".formatted(showTimeId, movieId))
+        );
+        return ShowTimeMapper.showTimeToShowTimeMovieResponseDto(showTime);
     }
 
     public List<ShowTimeMovieResponseDto> getMovieShowTimes(Integer movieId, LocalDate date) {
@@ -141,9 +122,6 @@ public class ShowTimeService {
                 .toList();
     }
 
-    /**
-     *
-     */
     public ShowTimeMovieResponseDto addMovieShowTime(
             Integer movieId,
             ShowTimeMovieCreateDto showTimeMovieCreateDto
