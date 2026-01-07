@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -34,24 +35,36 @@ public class MovieController {
     }
 
     @GetMapping("/{movieId}/show-times/{showTimeId}")
-    public ShowTimeResponseDto getMovieShowTime(
+    public ShowTimeMovieResponseDto getMovieShowTime(
             @PathVariable("movieId") Integer movieId,
             @PathVariable("showTimeId") Integer showTimeId
     ) {
         return showTimeService.getMovieShowTime(movieId, showTimeId);
     }
 
-    @GetMapping("/{id}/show-times")
-    public List<ShowTimeResponseDto> getMovieShowTimes() {
-        return showTimeService.getMovieShowTimes();
+    @GetMapping("/{movieId}/show-times")
+    public List<ShowTimeMovieResponseDto> getMovieShowTimes(
+            @PathVariable("movieId") Integer movieId,
+            @RequestParam(required = false) LocalDate date
+            ) {
+        return showTimeService.getMovieShowTimes(movieId, date);
     }
 
     @PostMapping("/{id}/show-times")
-    public ShowTimeResponseDto getMovieShowTimes(
+    public ShowTimeMovieResponseDto getMovieShowTimes(
             @PathVariable("id") Integer movieId,
             @RequestBody @Valid ShowTimeMovieCreateDto showTimeCreateDto
     ) {
         return showTimeService.addMovieShowTime(movieId, showTimeCreateDto);
+    }
+
+    @PatchMapping("/{id}/show-times/{showTimeId}")
+    public ShowTimeMovieResponseDto updateMovieShowTimes(
+            @PathVariable("id") Integer movieId,
+            @PathVariable("showTimeId") Integer showTimeId,
+            @RequestBody @Valid ShowTimeMovieUpdateDto showTimeMovieUpdateDto
+    ) {
+        return showTimeService.updateMovieShowTime(movieId, showTimeId, showTimeMovieUpdateDto);
     }
 
     @GetMapping("")

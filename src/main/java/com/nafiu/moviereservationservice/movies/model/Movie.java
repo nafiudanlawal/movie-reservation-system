@@ -28,7 +28,7 @@ public class Movie {
     @JsonBackReference
     private Genre genre;
 
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.REMOVE)
     @JsonBackReference
     List<ShowTime> showTimes;
 

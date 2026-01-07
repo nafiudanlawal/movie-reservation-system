@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -29,8 +30,10 @@ public class ShowTimeController {
 
 
     @GetMapping
-    public List<ShowTimeResponseDto> getShowTimes() {
-        return this.service.getShowTimes();
+    public List<ShowTimeResponseDto> getShowTimes(
+            @RequestParam(required = false) LocalDate date
+    ) {
+        return this.service.getShowTimes(date);
     }
 
     @GetMapping("/{id}")

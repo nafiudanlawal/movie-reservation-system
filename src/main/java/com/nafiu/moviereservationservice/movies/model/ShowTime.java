@@ -2,7 +2,7 @@ package com.nafiu.moviereservationservice.movies.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.nafiu.moviereservationservice.movies.model.Movie;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nafiu.moviereservationservice.reservation.model.Venue;
 import jakarta.persistence.*;
 
@@ -17,15 +17,19 @@ public class ShowTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     LocalDate date;
 
+    @JsonFormat(pattern = "HH:mm")
     LocalTime time;
 
     @ManyToOne
     @JsonBackReference
+    @JoinColumn(name = "movie_id")
     Movie movie;
 
     @ManyToOne
+    @JoinColumn(name = "venue_id")
     Venue venue;
 
     Double price;

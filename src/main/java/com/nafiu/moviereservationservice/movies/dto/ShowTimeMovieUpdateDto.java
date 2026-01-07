@@ -6,14 +6,13 @@ import jakarta.validation.constraints.FutureOrPresent;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public record ShowTimeUpdateDto(
+public record ShowTimeMovieUpdateDto(
         @FutureOrPresent
         LocalDate date,
 
         LocalTime time,
-        Integer movieId,
-        Integer venueId,
 
+        Integer venueId,
         @Digits(integer = 10, fraction = 2)
         Double price
 ) {
