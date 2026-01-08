@@ -1,11 +1,22 @@
 package com.nafiu.moviereservationservice.auth.service;
 
+import com.nafiu.moviereservationservice.auth.dto.AuthLoginResponseDto;
+import com.nafiu.moviereservationservice.auth.dto.UserLoginDto;
+import com.nafiu.moviereservationservice.auth.dto.UserRegistrationDto;
+import com.nafiu.moviereservationservice.auth.dto.UserResponseDto;
+import com.nafiu.moviereservationservice.auth.mapper.UserMapper;
+import com.nafiu.moviereservationservice.auth.model.Role;
 import com.nafiu.moviereservationservice.auth.model.User;
 import com.nafiu.moviereservationservice.auth.model.UserPrincipal;
+import com.nafiu.moviereservationservice.auth.respository.RoleRepository;
 import com.nafiu.moviereservationservice.auth.respository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +24,8 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+
+    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -25,4 +38,7 @@ public class UserService implements UserDetailsService {
         );
         return new UserPrincipal(user);
     }
+
+
+
 }

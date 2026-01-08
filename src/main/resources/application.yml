@@ -12,5 +12,8 @@ spring:
 
 logging:
   level:
-    web: debug
-    sql: debug
+    web: info
+    sql: info
+jwt:
+  secret:
+    key: my-hidden-secret-dythdmy-hidden-secret-dythdmy-hidden-secret-dythdmy-hidden-secret-dythd #Should be 256 characters

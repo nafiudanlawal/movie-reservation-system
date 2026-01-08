@@ -9,23 +9,26 @@ public class User {
     @GeneratedValue
     Integer id;
 
+    @Column(unique = true, nullable = false)
     String username;
+    String name;
 
     String password;
 
-    @OneToOne
-    Role role;
+    String role;
 
     public User() {}
 
-    public User(Integer id, String username, String password, Role role) {
+    public User(Integer id, String name, String username, String password, String role) {
         this.id = id;
+        this.name = name;
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public User(String username, String password, Role role) {
+    public User(String name, String username, String password, String role) {
+        this.name = name;
         this.username = username;
         this.password = password;
         this.role = role;
@@ -55,11 +58,19 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
