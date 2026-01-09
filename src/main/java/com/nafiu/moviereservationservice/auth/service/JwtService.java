@@ -62,7 +62,7 @@ public class JwtService {
                 .parseSignedClaims(token)
                 .getPayload();
     }
-    private Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         return getExpirationDate(token).before(new Date());
     }
     private SecretKey getSignKey() {

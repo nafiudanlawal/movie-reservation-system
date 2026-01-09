@@ -5,10 +5,15 @@ spring:
     username: postgres
     password: admin
     url: jdbc:postgresql://localhost:5432/movie_reservation
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
   jpa:
     open-in-view: true
     hibernate:
       ddl-auto: update
+    defer-datasource-initialization: true
 
 logging:
   level:

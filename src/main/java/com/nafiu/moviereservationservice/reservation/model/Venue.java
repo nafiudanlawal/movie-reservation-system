@@ -16,6 +16,8 @@ public class Venue {
 
     String address;
 
+    Integer capacity = 0;
+
     @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL)
     @JsonBackReference
     List<Seat> seats;
@@ -25,16 +27,19 @@ public class Venue {
     public Venue(String name) {
         this.name = name;
         this.address = "";
+        this.capacity = 0;
     }
-    public Venue(String name, String address) {
+    public Venue(String name, String address, Integer capacity) {
         this.name = name;
         this.address = address;
+        this.capacity = capacity;
     }
 
     public Venue(String name, String address, List<Seat> seats) {
         this.name = name;
         this.address = address;
         this.seats = seats;
+        this.capacity = 0;
     }
 
     public Integer getId() {
@@ -67,5 +72,13 @@ public class Venue {
 
     public void setSeats(List<Seat> seats) {
         this.seats = seats;
+    }
+
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
     }
 }

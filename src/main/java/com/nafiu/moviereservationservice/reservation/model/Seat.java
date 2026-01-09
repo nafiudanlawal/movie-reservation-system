@@ -24,8 +24,6 @@ public class Seat {
         this.venue = venue;
     }
 
-
-
     public Integer getId() {
         return id;
     }

@@ -60,7 +60,7 @@ public class AuthService {
             throw new DuplicateKeyException("username already exists");
         }
 
-        User user = authDtoMapper.userFromUserRegistrationDto(userRegistrationDto, "USER");
+        User user = authDtoMapper.userFromUserRegistrationDto(userRegistrationDto, "ROLE_USER");
         user.setPassword(this.passwordEncoder.encode(userRegistrationDto.password()));
         this.userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);

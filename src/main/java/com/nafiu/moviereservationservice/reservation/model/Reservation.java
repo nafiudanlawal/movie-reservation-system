@@ -16,6 +16,35 @@ public class Reservation {
     @ManyToOne
     ShowTime showTime;
 
-    @ManyToOne
-    Seat seat;
+
+    public Reservation(User user, ShowTime showTime) {
+        this.user = user;
+        this.showTime = showTime;
+    }
+
+    public Reservation() {}
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public ShowTime getShowTime() {
+        return showTime;
+    }
+
+    public void setShowTime(ShowTime showTime) {
+        this.showTime = showTime;
+    }
 }

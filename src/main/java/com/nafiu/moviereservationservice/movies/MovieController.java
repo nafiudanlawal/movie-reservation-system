@@ -7,6 +7,7 @@ import com.nafiu.moviereservationservice.movies.service.ShowTimeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -51,6 +52,7 @@ public class MovieController {
     }
 
     @PostMapping("/{id}/show-times")
+    @PreAuthorize("hasRole('ADMIN')")
     public ShowTimeMovieResponseDto getMovieShowTimes(
             @PathVariable("id") Integer movieId,
             @RequestBody @Valid ShowTimeMovieCreateDto showTimeCreateDto
@@ -59,6 +61,7 @@ public class MovieController {
     }
 
     @PatchMapping("/{id}/show-times/{showTimeId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ShowTimeMovieResponseDto updateMovieShowTimes(
             @PathVariable("id") Integer movieId,
             @PathVariable("showTimeId") Integer showTimeId,
@@ -74,16 +77,19 @@ public class MovieController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
     public MovieResponseDto addMovie(@RequestBody @Valid MovieCreateDto movieDto) {
         return this.movieService.createMovie(movieDto);
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public MovieResponseDto getMovie(@PathVariable("id") Integer id, @RequestBody @Valid MovieUpdateDto movieDto) {
         return movieService.updateOne(id, movieDto);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteMovie(@PathVariable("id") Integer id) {
         movieService.deleteOne(id);
     }

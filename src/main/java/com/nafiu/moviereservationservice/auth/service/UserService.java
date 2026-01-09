@@ -1,6 +1,5 @@
 package com.nafiu.moviereservationservice.auth.service;
 
-
 import com.nafiu.moviereservationservice.auth.model.User;
 import com.nafiu.moviereservationservice.auth.model.UserPrincipal;
 import com.nafiu.moviereservationservice.auth.respository.UserRepository;
@@ -23,7 +22,6 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.printf("Get User: %s %n", username);
         User user = this.userRepository.findUserByUsername(username).orElseThrow(() ->
                 new UsernameNotFoundException("User with username: %s not found.".formatted(username))
         );

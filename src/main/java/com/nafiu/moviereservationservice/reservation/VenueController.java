@@ -4,12 +4,14 @@ import com.nafiu.moviereservationservice.reservation.dto.*;
 import com.nafiu.moviereservationservice.reservation.service.VenueService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/venues")
+
 public class VenueController {
     private final VenueService venueService;
 
@@ -18,12 +20,14 @@ public class VenueController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public VenueResponseDto createSeat(@RequestBody @Valid VenueCreateDto venueDto) {
         return this.venueService.createVenue(venueDto);
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public VenueResponseDto updateSeat(
             @PathVariable("id") Integer id,
             @RequestBody @Valid VenueUpdateDto venueDto
@@ -42,11 +46,13 @@ public class VenueController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteVenue(@PathVariable("id") Integer id) {
         this.venueService.deleteVenue(id);
     }
 
     @PostMapping("/{id}/seats")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public SeatVenueResponseDto createVenueSeat(
             @PathVariable("id")
@@ -66,6 +72,7 @@ public class VenueController {
     }
 
     @DeleteMapping("/{venueId}/seats/{seatId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteVenueSeat(@PathVariable("venueId") Integer venueId, @PathVariable("seatId") Integer seatId) {
         this.venueService.deleteVenueSeat(venueId, seatId);
     }
@@ -79,6 +86,7 @@ public class VenueController {
     }
 
     @PatchMapping("/{venueId}/seats/{seatId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public SeatVenueResponseDto getVenueSeat(
             @PathVariable("venueId") Integer venueId,
             @PathVariable("seatId") Integer seatId,

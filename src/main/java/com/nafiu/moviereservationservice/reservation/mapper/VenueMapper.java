@@ -8,7 +8,8 @@ public class VenueMapper {
     public static Venue VenueFromVenueCreateDto(VenueCreateDto venueCreateDto){
         return new Venue(
                 venueCreateDto.name(),
-                venueCreateDto.address()
+                venueCreateDto.address(),
+                venueCreateDto.capacity()
         );
     }
 
@@ -17,6 +18,7 @@ public class VenueMapper {
                 venue.getId(),
                 venue.getName(),
                 venue.getAddress(),
+                venue.getCapacity(),
                 venue.getSeats()
         );
     }

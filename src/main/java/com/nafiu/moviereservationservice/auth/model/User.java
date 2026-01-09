@@ -1,21 +1,25 @@
 package com.nafiu.moviereservationservice.auth.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue
-    Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(unique = true, nullable = false)
-    String username;
-    String name;
+    private String username;
+    private String name;
 
-    String password;
 
-    String role;
+    @JsonIgnore
+    private String password;
+
+    @JsonIgnore
+    private String role;
 
     public User() {}
 
