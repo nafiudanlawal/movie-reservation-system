@@ -1,12 +1,12 @@
 package com.nafiu.moviereservationservice.auth.config;
 
-import com.nafiu.moviereservationservice.auth.model.UserPrincipal;
 import com.nafiu.moviereservationservice.auth.service.JwtService;
 import com.nafiu.moviereservationservice.auth.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -31,7 +31,8 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain)
+            throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
@@ -53,5 +54,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 securityContext.setAuthentication(authToken);
             }
         }
+        filterChain.doFilter(request, response);
     }
 }

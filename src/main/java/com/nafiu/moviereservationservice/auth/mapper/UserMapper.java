@@ -3,7 +3,6 @@ package com.nafiu.moviereservationservice.auth.mapper;
 import com.nafiu.moviereservationservice.auth.dto.UserJwtDto;
 import com.nafiu.moviereservationservice.auth.dto.UserRegistrationDto;
 import com.nafiu.moviereservationservice.auth.dto.UserResponseDto;
-import com.nafiu.moviereservationservice.auth.model.Role;
 import com.nafiu.moviereservationservice.auth.model.User;
 import org.springframework.stereotype.Component;
 

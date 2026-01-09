@@ -3,10 +3,11 @@ package com.nafiu.moviereservationservice.auth.service;
 import com.nafiu.moviereservationservice.auth.dto.AuthLoginResponseDto;
 import com.nafiu.moviereservationservice.auth.dto.UserLoginDto;
 import com.nafiu.moviereservationservice.auth.dto.UserRegistrationDto;
-import com.nafiu.moviereservationservice.auth.mapper.UserMapper;
+import com.nafiu.moviereservationservice.auth.mapper.AuthDtoMapper;
 import com.nafiu.moviereservationservice.auth.model.User;
 import com.nafiu.moviereservationservice.auth.respository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +21,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
 
-    private final UserMapper userMapper;
+    private final AuthDtoMapper authDtoMapper;
 
     @Autowired
     public AuthService(
@@ -28,13 +29,13 @@ public class AuthService {
             UserRepository userRepository,
             JwtService jwtService,
             PasswordEncoder passwordEncoder,
-            UserMapper userMapper
+            AuthDtoMapper authDtoMapper
     ) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
-        this.userMapper = userMapper;
+        this.authDtoMapper = authDtoMapper;
     }
 
     public AuthLoginResponseDto authenticateUser(UserLoginDto userLoginDto) {
@@ -52,8 +53,14 @@ public class AuthService {
         );
     }
 
-    public AuthLoginResponseDto registerUser(UserRegistrationDto userRegistrationDto) {
-        User user = userMapper.userFromUserRegistrationDto(userRegistrationDto, "USER");
+    public AuthLoginResponseDto registerUser(UserRegistrationDto userRegistrationDto) throws DuplicateKeyException{
+        // check if username exists
+        var userOptional = this.userRepository.findUserByUsername(userRegistrationDto.username());
+        if(userOptional.isPresent()){
+            throw new DuplicateKeyException("username already exists");
+        }
+
+        User user = authDtoMapper.userFromUserRegistrationDto(userRegistrationDto, "USER");
         user.setPassword(this.passwordEncoder.encode(userRegistrationDto.password()));
         this.userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
