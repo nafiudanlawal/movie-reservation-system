@@ -5,7 +5,6 @@ import com.nafiu.moviereservationservice.movies.dto.MovieResponseDto;
 import com.nafiu.moviereservationservice.movies.mapper.MovieMapper;
 import com.nafiu.moviereservationservice.movies.model.Genre;
 import com.nafiu.moviereservationservice.movies.model.Movie;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Profile;
 
@@ -13,9 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Profile("test")
 public class MovieMapperTest {
-    @BeforeEach
-    void beforeEach() {
-    }
 
     @Test
     public void showChangeGenreToResponseDto() {

@@ -4,18 +4,12 @@ import com.nafiu.moviereservationservice.movies.dto.GenreCreateDto;
 import com.nafiu.moviereservationservice.movies.dto.GenreResponseDto;
 import com.nafiu.moviereservationservice.movies.mapper.GenreMapper;
 import com.nafiu.moviereservationservice.movies.model.Genre;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 import static org.junit.jupiter.api.Assertions.*;
 @Profile("test")
 public class GenreMapperTest {
     //Genre genre;
-
-    @BeforeEach
-    void beforeEach(){
-    }
 
     @Test
     public void showChangeGenreToResponseDto(){

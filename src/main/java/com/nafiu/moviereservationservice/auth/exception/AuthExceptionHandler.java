@@ -1,7 +1,6 @@
 package com.nafiu.moviereservationservice.auth.exception;
 
 import com.nafiu.moviereservationservice.exceptions.ApiErrorResponseDto;
-import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.CredentialsExpiredException;

@@ -52,7 +52,7 @@ public class ReservationService {
         UserPrincipal userPrincipal = (UserPrincipal) securityContext.getAuthentication().getPrincipal();
 
         Reservation reservation = new Reservation();
-        reservation.setUser(userPrincipal.getUser());
+        reservation.setUser(userPrincipal.user());
         reservation.setShowTime(showTime);
 
         // add new reservation
@@ -77,6 +77,7 @@ public class ReservationService {
     }
 
     public ReservationResponseDto updateReservation(Integer id) {
+        // TODO
         return null;
     }
 }

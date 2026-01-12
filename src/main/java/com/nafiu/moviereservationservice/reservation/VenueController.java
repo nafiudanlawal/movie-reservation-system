@@ -51,47 +51,11 @@ public class VenueController {
         this.venueService.deleteVenue(id);
     }
 
-    @PostMapping("/{id}/seats")
-    @PreAuthorize("hasRole('ADMIN')")
-    @ResponseStatus(HttpStatus.CREATED)
-    public SeatVenueResponseDto createVenueSeat(
-            @PathVariable("id")
-            Integer venueId,
-            @RequestBody @Valid
-            VenueSeatCreateDto venueSeatCreateDto
-    ) {
-        return this.venueService.addSeatToVenue(venueId, venueSeatCreateDto);
-    }
-
     @GetMapping("/{id}/seats")
     public List<SeatVenueResponseDto> getVenueSeats(
             @PathVariable("id")
             Integer venueId
     ) {
         return this.venueService.getVenueSeats(venueId);
-    }
-
-    @DeleteMapping("/{venueId}/seats/{seatId}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public void deleteVenueSeat(@PathVariable("venueId") Integer venueId, @PathVariable("seatId") Integer seatId) {
-        this.venueService.deleteVenueSeat(venueId, seatId);
-    }
-
-    @GetMapping("/{venueId}/seats/{seatId}")
-    public SeatVenueResponseDto getVenueSeat(
-            @PathVariable("venueId") Integer venueId,
-            @PathVariable("seatId") Integer seatId
-    ) {
-        return this.venueService.getVenueSeat(venueId, seatId);
-    }
-
-    @PatchMapping("/{venueId}/seats/{seatId}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public SeatVenueResponseDto getVenueSeat(
-            @PathVariable("venueId") Integer venueId,
-            @PathVariable("seatId") Integer seatId,
-            @RequestBody @Valid SeatVenueUpdateDto seatVenueUpdateDto
-    ) {
-        return this.venueService.updateVenueSeat(venueId, seatId, seatVenueUpdateDto);
     }
 }

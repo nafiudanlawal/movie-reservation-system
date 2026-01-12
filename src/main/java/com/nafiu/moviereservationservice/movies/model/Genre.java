@@ -31,11 +31,7 @@ public class Genre {
         createdAt = updatedAt = new Date();
     }
 
-    public Genre(String title) {
-        this.title = title;
-        this.description = "";
-        this.createdAt = this.updatedAt = new Date();
-    }
+
 
     public Genre(String title, String description) {
         this.title = title;

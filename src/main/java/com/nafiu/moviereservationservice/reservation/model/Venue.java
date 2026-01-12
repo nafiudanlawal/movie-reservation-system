@@ -1,9 +1,6 @@
 package com.nafiu.moviereservationservice.reservation.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 @Table(name = "venues")
@@ -18,10 +15,6 @@ public class Venue {
 
     Integer capacity = 0;
 
-    @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL)
-    @JsonBackReference
-    List<Seat> seats;
-
     public Venue() {}
 
     public Venue(String name) {
@@ -35,10 +28,9 @@ public class Venue {
         this.capacity = capacity;
     }
 
-    public Venue(String name, String address, List<Seat> seats) {
+    public Venue(String name, String address) {
         this.name = name;
         this.address = address;
-        this.seats = seats;
         this.capacity = 0;
     }
 
@@ -64,14 +56,6 @@ public class Venue {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public List<Seat> getSeats() {
-        return seats;
-    }
-
-    public void setSeats(List<Seat> seats) {
-        this.seats = seats;
     }
 
     public Integer getCapacity() {

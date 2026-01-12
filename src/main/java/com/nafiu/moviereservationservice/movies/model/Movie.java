@@ -52,25 +52,6 @@ public class Movie {
         this.createdAt = this.updatedAt = new Date();
     }
 
-    public Movie(Integer id,
-                 String title,
-                 String description,
-                 Integer year,
-                 Genre genre,
-                 String posterImage,
-                 Date createdAt,
-                 Date updatedAt
-    ) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.posterImage = posterImage;
-        this.year = year;
-        this.genre = genre;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
     public Integer getId() {
         return id;
     }
