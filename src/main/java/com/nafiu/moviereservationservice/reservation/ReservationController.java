@@ -7,6 +7,7 @@ import com.nafiu.moviereservationservice.reservation.dto.ReservationResponseDto;
 import com.nafiu.moviereservationservice.reservation.exception.FullCapacityException;
 import com.nafiu.moviereservationservice.reservation.service.ReservationService;
 import jakarta.validation.Valid;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,6 +31,12 @@ public class ReservationController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ReservationResponseDto> createReservation(@RequestBody @Valid ReservationCreateDto reservationDto){
         return this.service.createReservation(reservationDto);
+    }
+
+    @PutMapping("/{id}/cancel")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<ReservationResponseDto> cancelReservation(@PathVariable("id") Integer id ) throws Exception {
+        return this.service.cancelReservation(id);
     }
 
     @GetMapping

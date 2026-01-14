@@ -16,6 +16,8 @@ public class Reservation {
     @ManyToOne
     ShowTime showTime;
 
+    ReservationState status = ReservationState.ACTIVE;
+
 
     public Reservation(User user, ShowTime showTime) {
         this.user = user;
@@ -46,5 +48,13 @@ public class Reservation {
 
     public void setShowTime(ShowTime showTime) {
         this.showTime = showTime;
+    }
+
+    public ReservationState getStatus() {
+        return status;
+    }
+
+    public void setStatus(ReservationState status) {
+        this.status = status;
     }
 }

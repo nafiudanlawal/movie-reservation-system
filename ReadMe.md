@@ -39,6 +39,12 @@ Run application
 ```bash
 mvn spring-boot:run
 ```
+## API Documentation
+After you run the application the API spec is at 
+
+```/swagger-ui/index.html```
+
+```/v3/api-docs```
 
 ## References
 - [Source Project](https://roadmap.sh/projects/movie-reservation-system)

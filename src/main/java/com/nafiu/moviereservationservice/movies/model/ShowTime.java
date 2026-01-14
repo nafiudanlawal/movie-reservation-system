@@ -3,11 +3,14 @@ package com.nafiu.moviereservationservice.movies.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nafiu.moviereservationservice.reservation.model.Reservation;
 import com.nafiu.moviereservationservice.reservation.model.Venue;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -31,6 +34,9 @@ public class ShowTime {
     @ManyToOne
     @JoinColumn(name = "venue_id")
     Venue venue;
+
+    @OneToMany(mappedBy = "showTime", fetch = FetchType.LAZY) @JsonBackReference @JsonIgnore
+    List<Reservation> reservations;
 
     Double price;
 
@@ -90,6 +96,14 @@ public class ShowTime {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 
     @Override

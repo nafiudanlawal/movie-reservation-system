@@ -6,11 +6,14 @@ import com.nafiu.moviereservationservice.movies.model.Movie;
 import com.nafiu.moviereservationservice.movies.model.ShowTime;
 import com.nafiu.moviereservationservice.movies.repository.MovieRepository;
 import com.nafiu.moviereservationservice.movies.repository.ShowTimeRepository;
+import com.nafiu.moviereservationservice.reservation.dto.ReservationResponseDto;
+import com.nafiu.moviereservationservice.reservation.mapper.ReservationMapper;
 import com.nafiu.moviereservationservice.reservation.model.Venue;
 import com.nafiu.moviereservationservice.reservation.repository.VenueRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.TransactionScoped;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,12 +25,14 @@ public class ShowTimeService {
     private final ShowTimeRepository showTimeRepository;
     private final MovieRepository movieRepository;
     private final VenueRepository venueRepository;
+    private final ReservationMapper reservationMapper;
 
     @Autowired
-    public ShowTimeService(ShowTimeRepository showTimeRepository, MovieRepository movieRepository, VenueRepository venueRepository) {
+    public ShowTimeService(ShowTimeRepository showTimeRepository, MovieRepository movieRepository, VenueRepository venueRepository, ReservationMapper reservationMapper) {
         this.showTimeRepository = showTimeRepository;
         this.movieRepository = movieRepository;
         this.venueRepository = venueRepository;
+        this.reservationMapper = reservationMapper;
     }
 
     @TransactionScoped
@@ -142,5 +147,16 @@ public class ShowTimeService {
         );
         ShowTimeResponseDto showTimeResponseDto = this.updateShowTime(showTimeId, showTimeUpdateDto);
         return ShowTimeMapper.showTimeResponseDtoToShowTimeMovieResponseDto(showTimeResponseDto);
+    }
+
+    public ResponseEntity<List<ReservationResponseDto>> getShowTimeReservations(Integer showTimeId) {
+        ShowTime showTime = this.showTimeRepository.findById(showTimeId).orElseThrow(() ->
+                new EntityNotFoundException("Showtime with id: %s not found".formatted(showTimeId))
+        );
+        return ResponseEntity.ok(showTime
+                .getReservations()
+                .stream()
+                .map(reservationMapper::reservationToReservationResponseDto)
+                .toList());
     }
 }
