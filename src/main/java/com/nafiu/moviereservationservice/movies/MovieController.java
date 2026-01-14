@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/movies")
+@RequestMapping(value = "/movies", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MovieController {
     private final MovieService movieService;
     private final ShowTimeService showTimeService;

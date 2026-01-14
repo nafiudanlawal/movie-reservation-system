@@ -7,13 +7,14 @@ import com.nafiu.moviereservationservice.movies.dto.MovieResponseDto;
 import com.nafiu.moviereservationservice.movies.service.GenreService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/genres")
+@RequestMapping(value = "/genres", produces = MediaType.APPLICATION_JSON_VALUE)
 @PreAuthorize(value = "hasRole('ADMIN')")
 public class GenreController {
     private final GenreService genreService;

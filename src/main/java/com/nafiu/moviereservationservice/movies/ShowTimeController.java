@@ -6,13 +6,14 @@ import com.nafiu.moviereservationservice.movies.service.ShowTimeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/show-times")
+@RequestMapping(value = "/show-times",produces = MediaType.APPLICATION_JSON_VALUE)
 public class ShowTimeController {
 
     private final ShowTimeService service;
