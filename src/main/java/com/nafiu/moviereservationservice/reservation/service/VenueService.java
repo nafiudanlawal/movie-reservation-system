@@ -8,6 +8,8 @@ import com.nafiu.moviereservationservice.reservation.mapper.VenueMapper;
 import com.nafiu.moviereservationservice.reservation.model.Venue;
 import com.nafiu.moviereservationservice.reservation.repository.VenueRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,28 +22,30 @@ public class VenueService {
         this.venueRepository = venueRepository;
     }
 
-    public VenueResponseDto createVenue(VenueCreateDto venueDto) {
+    public ResponseEntity<VenueResponseDto> createVenue(VenueCreateDto venueDto) {
         Venue venue = VenueMapper.VenueFromVenueCreateDto(venueDto);
         this.venueRepository.save(venue);
-        return VenueMapper.VenueToVenueResponseDto(venue);
+        return VenueMapper.VenueToVenueResponseDto(venue).toResponseEntity(HttpStatus.CREATED);
     }
 
-    public List<VenueResponseDto> getVenues() {
-        return this.venueRepository
-                .findAll()
-                .stream()
-                .map(VenueMapper::VenueToVenueResponseDto)
-                .toList();
+    public ResponseEntity<List<VenueResponseDto>> getVenues() {
+        return ResponseEntity.ok(
+                this.venueRepository
+                        .findAll()
+                        .stream()
+                        .map(VenueMapper::VenueToVenueResponseDto)
+                        .toList()
+        );
     }
 
-    public VenueResponseDto getVenue(Integer id) throws EntityNotFoundException {
+    public ResponseEntity<VenueResponseDto> getVenue(Integer id) throws EntityNotFoundException {
         Venue venue = this.venueRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("Venue with id %d not found".formatted(id))
         );
-        return VenueMapper.VenueToVenueResponseDto(venue);
+        return VenueMapper.VenueToVenueResponseDto(venue).toResponseEntity();
     }
 
-    public VenueResponseDto updateVenue(Integer id, VenueUpdateDto venueDto) throws EntityNotFoundException {
+    public ResponseEntity<VenueResponseDto> updateVenue(Integer id, VenueUpdateDto venueDto) throws EntityNotFoundException {
         Venue venue = this.venueRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("Venue with id %d not found".formatted(id))
         );
@@ -52,7 +56,7 @@ public class VenueService {
             venue.setAddress(venueDto.address());
         }
         this.venueRepository.save(venue);
-        return VenueMapper.VenueToVenueResponseDto(venue);
+        return VenueMapper.VenueToVenueResponseDto(venue).toResponseEntity();
     }
 
     public void deleteVenue(Integer id) {

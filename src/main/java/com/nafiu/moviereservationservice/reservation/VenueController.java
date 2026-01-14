@@ -7,6 +7,7 @@ import com.nafiu.moviereservationservice.reservation.service.VenueService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,14 +27,13 @@ public class VenueController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    @ResponseStatus(HttpStatus.CREATED)
-    public VenueResponseDto createSeat(@RequestBody @Valid VenueCreateDto venueDto) {
+    public ResponseEntity<VenueResponseDto> createSeat(@RequestBody @Valid VenueCreateDto venueDto) {
         return this.venueService.createVenue(venueDto);
     }
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public VenueResponseDto updateSeat(
+    public ResponseEntity<VenueResponseDto> updateSeat(
             @PathVariable("id") Integer id,
             @RequestBody @Valid VenueUpdateDto venueDto
     ) {
@@ -41,12 +41,12 @@ public class VenueController {
     }
 
     @GetMapping
-    public List<VenueResponseDto> getVenues() {
+    public ResponseEntity<List<VenueResponseDto>> getVenues() {
         return this.venueService.getVenues();
     }
 
     @GetMapping("/{id}")
-    public VenueResponseDto getVenue(@PathVariable("id") Integer id) {
+    public ResponseEntity<VenueResponseDto> getVenue(@PathVariable("id") Integer id) {
         return this.venueService.getVenue(id);
     }
 

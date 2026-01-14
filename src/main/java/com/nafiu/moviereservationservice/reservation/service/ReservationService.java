@@ -13,6 +13,7 @@ import com.nafiu.moviereservationservice.reservation.repository.ReservationRepos
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class ReservationService {
     }
 
     @Transactional
-    public ReservationResponseDto createReservation(ReservationCreateDto reservationDto)
+    public ResponseEntity<ReservationResponseDto> createReservation(ReservationCreateDto reservationDto)
             throws FullCapacityException, EntityNotFoundException {
         // validate showtime
         ShowTime showTime = this.showTimeRepository.findById(reservationDto.showTimeId()).orElseThrow(() ->
@@ -58,25 +59,27 @@ public class ReservationService {
         // add new reservation
         this.reservationRepository.save(reservation);
 
-        return reservationMapper.reservationToReservationResponseDto(reservation);
+        return reservationMapper.reservationToReservationResponseDto(reservation).toResponseEntity();
     }
 
-    public List<ReservationResponseDto> getReservations() {
-        return this.reservationRepository
-                .findAll()
-                .stream()
-                .map(reservationMapper::reservationToReservationResponseDto)
-                .toList();
+    public ResponseEntity<List<ReservationResponseDto>> getReservations() {
+        return ResponseEntity.ok(
+                this.reservationRepository
+                        .findAll()
+                        .stream()
+                        .map(reservationMapper::reservationToReservationResponseDto)
+                        .toList()
+        );
     }
 
-    public ReservationResponseDto getReservation(Integer id) {
+    public ResponseEntity<ReservationResponseDto> getReservation(Integer id) {
         Reservation reservation = this.reservationRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("reservation with Id: %d not found".formatted(id))
         );
-        return reservationMapper.reservationToReservationResponseDto(reservation);
+        return reservationMapper.reservationToReservationResponseDto(reservation).toResponseEntity();
     }
 
-    public ReservationResponseDto updateReservation(Integer id) {
+    public ResponseEntity<ReservationResponseDto> updateReservation(Integer id) {
         // TODO
         return null;
     }

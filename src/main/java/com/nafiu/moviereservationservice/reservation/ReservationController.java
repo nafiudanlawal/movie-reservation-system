@@ -1,6 +1,7 @@
 package com.nafiu.moviereservationservice.reservation;
 
 import com.nafiu.moviereservationservice.exceptions.ApiErrorResponseDto;
+import com.nafiu.moviereservationservice.exceptions.ApiErrorResponseDtoMapper;
 import com.nafiu.moviereservationservice.reservation.dto.ReservationCreateDto;
 import com.nafiu.moviereservationservice.reservation.dto.ReservationResponseDto;
 import com.nafiu.moviereservationservice.reservation.exception.FullCapacityException;
@@ -9,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,17 +29,17 @@ public class ReservationController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('USER')")
-    public ReservationResponseDto createReservation(@RequestBody @Valid ReservationCreateDto reservationDto){
+    public ResponseEntity<ReservationResponseDto> createReservation(@RequestBody @Valid ReservationCreateDto reservationDto){
         return this.service.createReservation(reservationDto);
     }
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public List<ReservationResponseDto> getReservations(){
+    public ResponseEntity<List<ReservationResponseDto>> getReservations(){
         return this.service.getReservations();
     }
     @GetMapping("/{id}")
-    public ReservationResponseDto getReservation(
+    public ResponseEntity<ReservationResponseDto> getReservation(
             @PathVariable("id")
             Integer id
     ){
@@ -45,12 +47,8 @@ public class ReservationController {
     }
     @ExceptionHandler(FullCapacityException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErrorResponseDto handleGeneralException(FullCapacityException ex) {
-        return new ApiErrorResponseDto(
-                ex.getMessage(),
-                HttpStatus.BAD_REQUEST.value(),
-                new Date()
-        );
+    public ResponseEntity<ApiErrorResponseDto> handleGeneralException(FullCapacityException ex) {
+        return ApiErrorResponseDtoMapper.createErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }
