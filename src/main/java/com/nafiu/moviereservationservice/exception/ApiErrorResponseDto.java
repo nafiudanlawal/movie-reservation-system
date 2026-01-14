@@ -1,4 +1,4 @@
-package com.nafiu.moviereservationservice.exceptions;
+package com.nafiu.moviereservationservice.exception;
 
 import java.util.Date;
 

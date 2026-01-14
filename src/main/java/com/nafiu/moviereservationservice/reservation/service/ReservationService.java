@@ -13,6 +13,7 @@ import com.nafiu.moviereservationservice.reservation.repository.ReservationRepos
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,7 +60,7 @@ public class ReservationService {
         // add new reservation
         this.reservationRepository.save(reservation);
 
-        return reservationMapper.reservationToReservationResponseDto(reservation).toResponseEntity();
+        return reservationMapper.reservationToReservationResponseDto(reservation).toResponseEntity(HttpStatus.CREATED);
     }
 
     public ResponseEntity<List<ReservationResponseDto>> getReservations() {

@@ -5,7 +5,6 @@ import com.nafiu.moviereservationservice.reservation.dto.VenueResponseDto;
 import com.nafiu.moviereservationservice.reservation.dto.VenueUpdateDto;
 import com.nafiu.moviereservationservice.reservation.service.VenueService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

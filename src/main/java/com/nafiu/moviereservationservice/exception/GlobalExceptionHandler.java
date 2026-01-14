@@ -1,10 +1,13 @@
-package com.nafiu.moviereservationservice.exceptions;
+package com.nafiu.moviereservationservice.exception;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -65,5 +68,12 @@ public class GlobalExceptionHandler {
         ex.printStackTrace();
         return ApiErrorResponseDtoMapper.createErrorResponse("Internal server error.", HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<ApiErrorResponseDto> forbiddenRequestData(AuthorizationDeniedException ex) {
+        return ApiErrorResponseDtoMapper.createErrorResponse(ex.getMessage(), HttpStatus.FORBIDDEN);
+    }
+    @ExceptionHandler({AccessDeniedException.class, AuthenticationException.class, CredentialsExpiredException.class})
+    public ResponseEntity<ApiErrorResponseDto> deniedRequestData(Exception ex) {
+        return ApiErrorResponseDtoMapper.createErrorResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
 }

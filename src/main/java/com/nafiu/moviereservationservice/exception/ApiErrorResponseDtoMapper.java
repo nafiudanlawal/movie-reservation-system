@@ -1,4 +1,4 @@
-package com.nafiu.moviereservationservice.exceptions;
+package com.nafiu.moviereservationservice.exception;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;

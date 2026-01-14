@@ -1,7 +1,7 @@
 package com.nafiu.moviereservationservice.reservation;
 
-import com.nafiu.moviereservationservice.exceptions.ApiErrorResponseDto;
-import com.nafiu.moviereservationservice.exceptions.ApiErrorResponseDtoMapper;
+import com.nafiu.moviereservationservice.exception.ApiErrorResponseDto;
+import com.nafiu.moviereservationservice.exception.ApiErrorResponseDtoMapper;
 import com.nafiu.moviereservationservice.reservation.dto.ReservationCreateDto;
 import com.nafiu.moviereservationservice.reservation.dto.ReservationResponseDto;
 import com.nafiu.moviereservationservice.reservation.exception.FullCapacityException;
@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
