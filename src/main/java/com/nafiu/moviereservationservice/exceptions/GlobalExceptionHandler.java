@@ -10,11 +10,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
-
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -22,15 +19,13 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(NoSuchElementException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiErrorResponseDto notFound(NoSuchElementException ex) {
-        return new ApiErrorResponseDto(ex.getMessage(), HttpStatus.NOT_FOUND.value(), new Date());
+    public ResponseEntity<ApiErrorResponseDto> notFound(NoSuchElementException ex) {
+        return ApiErrorResponseDtoMapper.createErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({EntityNotFoundException.class, NoResourceFoundException.class})
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiErrorResponseDto entityNotFound(Exception ex) {
-        return new ApiErrorResponseDto(ex.getMessage(), HttpStatus.NOT_FOUND.value(), new Date());
+    public ResponseEntity<ApiErrorResponseDto> entityNotFound(Exception ex) {
+        return ApiErrorResponseDtoMapper.createErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -46,34 +41,26 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErrorResponseDto notFound(Exception ex) {
-        return new ApiErrorResponseDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), new Date());
+    public ResponseEntity<ApiErrorResponseDto> notFound(Exception ex) {
+        return ApiErrorResponseDtoMapper.createErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 
     @ExceptionHandler({DataIntegrityViolationException.class, HttpMessageConversionException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErrorResponseDto badRequestData(Exception ex) {
-        return new ApiErrorResponseDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), new Date());
+    public ResponseEntity<ApiErrorResponseDto> badRequestData(Exception ex) {
+        return ApiErrorResponseDtoMapper.createErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-    public ApiErrorResponseDto unsupportedRequestMediaType(HttpMediaTypeNotSupportedException ex) {
-        return new ApiErrorResponseDto(ex.getMessage(), HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(), new Date());
+    public ResponseEntity<ApiErrorResponseDto> unsupportedRequestMediaType(HttpMediaTypeNotSupportedException ex) {
+        return ApiErrorResponseDtoMapper.createErrorResponse(ex.getMessage(), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ApiErrorResponseDto handleGeneralException(Exception ex) {
+    public ResponseEntity<ApiErrorResponseDto> handleGeneralException(Exception ex) {
         ex.printStackTrace();
-        return new ApiErrorResponseDto(
-                "Internal server error.",
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                new Date()
-        );
+        return ApiErrorResponseDtoMapper.createErrorResponse("Internal server error.", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
