@@ -46,12 +46,6 @@ public class GlobalExceptionHandler {
                 .body(errors);
     }
 
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ApiErrorResponseDto> notFound(Exception ex) {
-        return ApiErrorResponseDtoMapper.createErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-
     @ExceptionHandler({DataIntegrityViolationException.class, HttpMessageConversionException.class})
     public ResponseEntity<ApiErrorResponseDto> badRequestData(Exception ex) {
         return ApiErrorResponseDtoMapper.createErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
