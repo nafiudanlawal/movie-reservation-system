@@ -3,6 +3,7 @@ package com.nafiu.moviereservationservice.auth.service;
 import com.nafiu.moviereservationservice.auth.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,7 +55,7 @@ public class JwtService {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
-    private Claims extractAllClaims(String token) {
+    private Claims extractAllClaims(String token) throws MalformedJwtException {
         return Jwts
                 .parser()
                 .verifyWith(getSignKey())

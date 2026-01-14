@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -55,6 +56,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiErrorResponseDto badRequestData(Exception ex) {
         return new ApiErrorResponseDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), new Date());
+    }
+
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+    public ApiErrorResponseDto unsupportedRequestMediaType(HttpMediaTypeNotSupportedException ex) {
+        return new ApiErrorResponseDto(ex.getMessage(), HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(), new Date());
     }
 
 

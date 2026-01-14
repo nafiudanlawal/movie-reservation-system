@@ -1,6 +1,6 @@
 # Movie Reservation Service
 
-## Introduction
+## Functionality
 This service creates a restful API for movie reservation. Here are the key functions
 
 - User Authentication & Authorization with JWT Auth 
@@ -12,11 +12,30 @@ This service creates a restful API for movie reservation. Here are the key funct
 
 ## Requirements
 - Postgresql 17.4+
-- AWS S3
+- AWS *S3 (publicly accessible)*
 - Java 21+
 - Maven
 
 ## Run locally
+Set Environment variables
+
+Linux
+```bash
+ export AWS_ACCESS_KEY_ID="[key_id]"
+ export AWS_SECRET_ACCESS_KEY="[secret_key]"
+ export AWS_S3_BUCKET="[bucket_name]"
+ export AWS_REGION="[region"
+```
+Windows Powershell
+```bash
+ $env:AWS_ACCESS_KEY_ID="[key_id]"
+ $env:AWS_SECRET_ACCESS_KEY="[secret_key]"
+ $env:AWS_S3_BUCKET="[bucket_name]"
+ $env:AWS_REGION="[region]"
+```
+*replace key_id, secret, bucket_name and region to your AWS account.*
+
+Run application
 ```bash
 mvn spring-boot:run
 ```

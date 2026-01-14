@@ -7,10 +7,7 @@ import jakarta.validation.constraints.NotNull;
 public record MovieCreateDto(
 
         @NotBlank
-        @NotNull
         String title,
-        @NotBlank
-        @NotNull
         String description,
 
         @NotNull
@@ -18,6 +15,5 @@ public record MovieCreateDto(
         Integer year,
         @NotNull
         Integer genreId
-
 ) {
 }

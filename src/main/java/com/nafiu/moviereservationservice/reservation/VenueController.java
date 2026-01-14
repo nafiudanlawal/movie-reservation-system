@@ -1,6 +1,8 @@
 package com.nafiu.moviereservationservice.reservation;
 
-import com.nafiu.moviereservationservice.reservation.dto.*;
+import com.nafiu.moviereservationservice.reservation.dto.VenueCreateDto;
+import com.nafiu.moviereservationservice.reservation.dto.VenueResponseDto;
+import com.nafiu.moviereservationservice.reservation.dto.VenueUpdateDto;
 import com.nafiu.moviereservationservice.reservation.service.VenueService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -49,13 +51,5 @@ public class VenueController {
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteVenue(@PathVariable("id") Integer id) {
         this.venueService.deleteVenue(id);
-    }
-
-    @GetMapping("/{id}/seats")
-    public List<SeatVenueResponseDto> getVenueSeats(
-            @PathVariable("id")
-            Integer venueId
-    ) {
-        return this.venueService.getVenueSeats(venueId);
     }
 }

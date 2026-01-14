@@ -1,6 +1,9 @@
 package com.nafiu.moviereservationservice.movies;
 
-import com.nafiu.moviereservationservice.movies.dto.*;
+import com.nafiu.moviereservationservice.movies.dto.GenreCreateDto;
+import com.nafiu.moviereservationservice.movies.dto.GenreResponseDto;
+import com.nafiu.moviereservationservice.movies.dto.GenreUpdateDto;
+import com.nafiu.moviereservationservice.movies.dto.MovieResponseDto;
 import com.nafiu.moviereservationservice.movies.service.GenreService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

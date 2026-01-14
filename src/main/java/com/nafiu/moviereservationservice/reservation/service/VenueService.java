@@ -1,7 +1,9 @@
 package com.nafiu.moviereservationservice.reservation.service;
 
 
-import com.nafiu.moviereservationservice.reservation.dto.*;
+import com.nafiu.moviereservationservice.reservation.dto.VenueCreateDto;
+import com.nafiu.moviereservationservice.reservation.dto.VenueResponseDto;
+import com.nafiu.moviereservationservice.reservation.dto.VenueUpdateDto;
 import com.nafiu.moviereservationservice.reservation.mapper.VenueMapper;
 import com.nafiu.moviereservationservice.reservation.model.Venue;
 import com.nafiu.moviereservationservice.reservation.repository.VenueRepository;

@@ -1,17 +1,20 @@
 package com.nafiu.moviereservationservice.movies.service;
 
+import com.nafiu.moviereservationservice.auth.service.StorageService;
 import com.nafiu.moviereservationservice.movies.dto.GenreResponseDto;
 import com.nafiu.moviereservationservice.movies.dto.MovieCreateDto;
+import com.nafiu.moviereservationservice.movies.dto.MovieResponseDto;
 import com.nafiu.moviereservationservice.movies.dto.MovieUpdateDto;
 import com.nafiu.moviereservationservice.movies.mapper.GenreMapper;
 import com.nafiu.moviereservationservice.movies.mapper.MovieMapper;
-import com.nafiu.moviereservationservice.movies.dto.MovieResponseDto;
 import com.nafiu.moviereservationservice.movies.model.Genre;
 import com.nafiu.moviereservationservice.movies.model.Movie;
 import com.nafiu.moviereservationservice.movies.repository.GenreRepository;
 import com.nafiu.moviereservationservice.movies.repository.MovieRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,10 +22,12 @@ import java.util.List;
 public class MovieService {
     private final MovieRepository movieRepository;
     private final GenreRepository genreRepository;
+    private final StorageService storageService;
 
-    public MovieService(MovieRepository movieRepository, GenreRepository genreRepository) {
+    public MovieService(MovieRepository movieRepository, GenreRepository genreRepository, StorageService storageService) {
         this.movieRepository = movieRepository;
         this.genreRepository = genreRepository;
+        this.storageService = storageService;
     }
 
     public List<MovieResponseDto> getAll() {
@@ -40,11 +45,11 @@ public class MovieService {
         movieRepository.deleteById(id);
     }
 
-    public MovieResponseDto createMovie(MovieCreateDto movieDto) {
+    public MovieResponseDto createMovie(MovieCreateDto movieDto, @NotNull MultipartFile posterImageFile) throws Exception {
         Genre genre = this.genreRepository.findById(movieDto.genreId()).orElseThrow(() ->
                 new EntityNotFoundException("Genre with id %d not found".formatted(movieDto.genreId()))
         );
-        String posterImage = "n/a"; // generate image poster
+        String posterImage = storageService.uploadMultipartFile(posterImageFile); // generate image poster
         Movie movie = MovieMapper.movieCreateDtoToMovie(movieDto, genre, posterImage);
         this.movieRepository.save(movie);
         return MovieMapper.movieToMovieResponseDto(movie);

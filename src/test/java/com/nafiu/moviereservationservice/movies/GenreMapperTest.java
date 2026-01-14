@@ -1,16 +1,12 @@
-package com.nafiu.moviereservationservice.movies.test;
+package com.nafiu.moviereservationservice.movies;
 
 import com.nafiu.moviereservationservice.movies.dto.GenreCreateDto;
 import com.nafiu.moviereservationservice.movies.dto.GenreResponseDto;
 import com.nafiu.moviereservationservice.movies.mapper.GenreMapper;
 import com.nafiu.moviereservationservice.movies.model.Genre;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.annotation.Profile;
 import static org.junit.jupiter.api.Assertions.*;
-@Profile("test")
 public class GenreMapperTest {
-    //Genre genre;
-
     @Test
     public void showChangeGenreToResponseDto(){
         String title = "test genre";

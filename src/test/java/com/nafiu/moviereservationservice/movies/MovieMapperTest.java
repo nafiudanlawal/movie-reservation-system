@@ -1,4 +1,4 @@
-package com.nafiu.moviereservationservice.movies.test;
+package com.nafiu.moviereservationservice.movies;
 
 import com.nafiu.moviereservationservice.movies.dto.MovieCreateDto;
 import com.nafiu.moviereservationservice.movies.dto.MovieResponseDto;
@@ -6,11 +6,9 @@ import com.nafiu.moviereservationservice.movies.mapper.MovieMapper;
 import com.nafiu.moviereservationservice.movies.model.Genre;
 import com.nafiu.moviereservationservice.movies.model.Movie;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.annotation.Profile;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-@Profile("test")
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class MovieMapperTest {
 
     @Test
@@ -40,7 +38,6 @@ public class MovieMapperTest {
 
     @Test
     public void showCreateDtoToGenre() {
-        Integer id = 1;
         Integer genreId = 1;
         String title = "test genre";
         String description = "test description";

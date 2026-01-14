@@ -18,8 +18,7 @@ public class VenueMapper {
                 venue.getId(),
                 venue.getName(),
                 venue.getAddress(),
-                venue.getCapacity(),
-                venue.getSeats()
+                venue.getCapacity()
         );
     }
 }

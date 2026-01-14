@@ -22,3 +22,7 @@ logging:
 jwt:
   secret:
     key: my-hidden-secret-dythdmy-hidden-secret-dythdmy-hidden-secret-dythdmy-hidden-secret-dythd #Should be 256 characters
+aws:
+  s3:
+    region: ${AWS_REGION}
+    bucket: ${AWS_S3_BUCKET}

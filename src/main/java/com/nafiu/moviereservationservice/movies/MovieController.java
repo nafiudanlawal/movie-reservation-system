@@ -7,11 +7,18 @@ import com.nafiu.moviereservationservice.movies.service.ShowTimeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/movies")
@@ -75,11 +82,14 @@ public class MovieController {
         return movieService.getAll();
     }
 
-    @PostMapping("")
+    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
-    public MovieResponseDto addMovie(@RequestBody @Valid MovieCreateDto movieDto) {
-        return this.movieService.createMovie(movieDto);
+    public MovieResponseDto addMovie(
+            @ModelAttribute @Valid MovieCreateDto movieDto,
+            @RequestPart("image") MultipartFile file
+    ) throws Exception {
+        return this.movieService.createMovie(movieDto, file);
     }
 
     @PatchMapping("/{id}")
@@ -92,5 +102,13 @@ public class MovieController {
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteMovie(@PathVariable("id") Integer id) {
         movieService.deleteOne(id);
+    }
+
+    @ExceptionHandler(MissingServletRequestPartException.class)
+    public ResponseEntity<?> addMovieImageNotPresent(MissingServletRequestPartException ex) {
+        Map<String, String> data = new HashMap<>();
+        data.put("message", ex.getMessage());
+        data.put("date", new Date().toString());
+        return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
     }
 }
