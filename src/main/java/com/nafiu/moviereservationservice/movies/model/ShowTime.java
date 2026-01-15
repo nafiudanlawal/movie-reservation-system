@@ -102,10 +102,6 @@ public class ShowTime {
         return reservations;
     }
 
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

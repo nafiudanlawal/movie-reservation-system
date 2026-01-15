@@ -1,6 +1,5 @@
 package com.nafiu.moviereservationservice.movies.service;
 
-import com.nafiu.moviereservationservice.auth.service.StorageService;
 import com.nafiu.moviereservationservice.movies.dto.GenreResponseDto;
 import com.nafiu.moviereservationservice.movies.dto.MovieCreateDto;
 import com.nafiu.moviereservationservice.movies.dto.MovieResponseDto;

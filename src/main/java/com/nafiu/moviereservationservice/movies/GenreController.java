@@ -5,6 +5,7 @@ import com.nafiu.moviereservationservice.movies.dto.GenreResponseDto;
 import com.nafiu.moviereservationservice.movies.dto.GenreUpdateDto;
 import com.nafiu.moviereservationservice.movies.dto.MovieResponseDto;
 import com.nafiu.moviereservationservice.movies.service.GenreService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/genres", produces = MediaType.APPLICATION_JSON_VALUE)
 @PreAuthorize(value = "hasRole('ADMIN')")
+@Tag(name = "Genre")
 public class GenreController {
     private final GenreService genreService;
 

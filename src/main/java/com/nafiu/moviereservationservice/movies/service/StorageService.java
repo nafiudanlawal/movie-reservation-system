@@ -1,10 +1,9 @@
-package com.nafiu.moviereservationservice.auth.service;
+package com.nafiu.moviereservationservice.movies.service;
 
 import org.apache.coyote.BadRequestException;
 import org.apache.tika.Tika;
 import org.apache.tika.mime.MediaType;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -16,7 +15,6 @@ import software.amazon.awssdk.services.s3.model.S3Exception;
 import java.io.IOException;
 
 @Service
-@Scope("singleton")
 public class StorageService {
 
     @Value("${aws.s3.region}")

@@ -2,8 +2,8 @@ package com.nafiu.moviereservationservice.auth.service;
 
 import com.nafiu.moviereservationservice.auth.model.User;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,7 +55,8 @@ public class JwtService {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
-    private Claims extractAllClaims(String token) throws MalformedJwtException {
+
+    private Claims extractAllClaims(String token) throws JwtException {
         return Jwts
                 .parser()
                 .verifyWith(getSignKey())
@@ -63,6 +64,7 @@ public class JwtService {
                 .parseSignedClaims(token)
                 .getPayload();
     }
+
     public Boolean isTokenExpired(String token) {
         return getExpirationDate(token).before(new Date());
     }

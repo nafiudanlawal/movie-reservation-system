@@ -4,6 +4,7 @@ package com.nafiu.moviereservationservice.movies;
 import com.nafiu.moviereservationservice.movies.dto.*;
 import com.nafiu.moviereservationservice.movies.service.MovieService;
 import com.nafiu.moviereservationservice.movies.service.ShowTimeService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/movies", produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "Movie")
 public class MovieController {
     private final MovieService movieService;
     private final ShowTimeService showTimeService;

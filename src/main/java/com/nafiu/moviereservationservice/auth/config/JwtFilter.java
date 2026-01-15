@@ -2,11 +2,11 @@ package com.nafiu.moviereservationservice.auth.config;
 
 import com.nafiu.moviereservationservice.auth.service.JwtService;
 import com.nafiu.moviereservationservice.auth.service.UserService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -31,29 +31,35 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
-        if(authHeader == null || !authHeader.startsWith("Bearer ")){
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response); // continue filter chain
             return;
         }
 
         String token = authHeader.substring(7);
-        if(token.isBlank()){
+        if (token.isBlank()) {
+            filterChain.doFilter(request, response); // continue filter chain
+            return;
+        }
+        String username;
+        try {
+            username = jwtService.getUsername(token);
+        } catch (JwtException exception) {
             filterChain.doFilter(request, response); // continue filter chain
             return;
         }
 
-        String username = jwtService.getUsername(token);
 
         SecurityContext securityContext = SecurityContextHolder.getContext();
 
-        if(username != null && securityContext.getAuthentication() == null){
+        if (username != null && securityContext.getAuthentication() == null) {
             UserDetails userDetails = userService.loadUserByUsername(username);
 
-            if(jwtService.validateToken(token, userDetails)){
+            if (jwtService.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()
                 );
