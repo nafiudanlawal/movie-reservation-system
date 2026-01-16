@@ -12,7 +12,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-    database-platform: org.hibernate.dialect.Postgres
 
 logging:
   level:
