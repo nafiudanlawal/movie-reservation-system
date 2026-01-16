@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: movie-reservation-service
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/postgres
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+logging:
+  level:
+    web: error
+    sql: error
+jwt:
+  secret:
+    key: my-hidden-secret-xxx-hidden-secret-xxx-hidden-secret-xxx-hidden-secret-xxx-xxx
+aws:
+  s3:
+    region: ${AWS_REGION}
+    bucket: ${AWS_S3_BUCKET}
+springdoc:
+  show-actuator: true

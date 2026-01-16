@@ -9,17 +9,12 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/movies", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -104,13 +99,5 @@ public class MovieController {
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteMovie(@PathVariable("id") Integer id) {
         movieService.deleteOne(id);
-    }
-
-    @ExceptionHandler(MissingServletRequestPartException.class)
-    public ResponseEntity<?> addMovieImageNotPresent(MissingServletRequestPartException ex) {
-        Map<String, String> data = new HashMap<>();
-        data.put("message", ex.getMessage());
-        data.put("date", new Date().toString());
-        return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
     }
 }

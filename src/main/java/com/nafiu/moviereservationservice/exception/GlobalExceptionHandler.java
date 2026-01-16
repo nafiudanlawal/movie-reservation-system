@@ -14,6 +14,7 @@ import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class GlobalExceptionHandler {
                 .body(errors);
     }
 
-    @ExceptionHandler({DataIntegrityViolationException.class, HttpMessageConversionException.class})
+    @ExceptionHandler({DataIntegrityViolationException.class, HttpMessageConversionException.class, MissingServletRequestPartException.class})
     public ResponseEntity<ApiErrorResponseDto> badRequestData(Exception ex) {
         return ApiErrorResponseDtoMapper.createErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
