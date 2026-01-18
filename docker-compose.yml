@@ -1,0 +1,29 @@
+services:
+  database:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: movie_reservation
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data1:/var/lib/postgresql/data
+  movie-api:
+    image: movie-api:latest
+    depends_on:
+      - database
+    environment:
+      AWS_ACCESS_KEY_ID: xxx
+      AWS_SECRET_ACCESS_KEY: xxx
+      AWS_S3_BUCKET: url-shortner-function
+      AWS_REGION: us-east-1
+      DB_URL: jdbc:postgresql://database:5432/movie_reservation
+      DB_USER: postgres
+      DB_PASSWORD: admin
+    ports:
+      - 8080:8080
+
+
+volumes:
+  postgres_data1:
