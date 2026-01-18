@@ -15,8 +15,18 @@ This service creates a restful API for movie reservation. Here are the key funct
 - AWS *S3 (publicly accessible)*
 - Java 21+
 - Maven
+- *Docker - optional*
 
-## Run locally
+## Run Locally
+### Docker
+This method requires that docker is installed. Change the environment variables for AWS credentials.
+```bash
+ docker compose up
+```
+
+### Local OS
+Running the application on your OS - Windows or Linux
+
 Set Environment variables
 
 Linux

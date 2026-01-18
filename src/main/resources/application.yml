@@ -2,9 +2,9 @@ spring:
   application:
     name: movie-reservation-service
   datasource:
-    username: postgres
-    password: admin
-    url: jdbc:postgresql://localhost:5432/movie_reservation
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    url: ${DB_URL}
     driver-class-name: org.postgresql.Driver
   sql:
     init:
@@ -21,7 +21,7 @@ logging:
     sql: info
 jwt:
   secret:
-    key: my-hidden-secret-dythdmy-hidden-secret-dythdmy-hidden-secret-dythdmy-hidden-secret-dythd #Should be 256 characters
+    key: my-hidden-secret-dythdmy-hidden-secret-dythdmy-hidden-secret-dythdmy-hidden-secret-dythd
 aws:
   s3:
     region: ${AWS_REGION}

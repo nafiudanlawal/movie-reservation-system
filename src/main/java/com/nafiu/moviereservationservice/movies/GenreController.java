@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/genres", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v1/genres", produces = MediaType.APPLICATION_JSON_VALUE)
 @PreAuthorize(value = "hasRole('ADMIN')")
 @Tag(name = "Genre")
 public class GenreController {

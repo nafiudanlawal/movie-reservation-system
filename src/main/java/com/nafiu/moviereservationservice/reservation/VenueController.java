@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(
-        value = "/venues",
+        value = "/v1/venues",
         produces = MediaType.APPLICATION_JSON_VALUE
 )
 public class VenueController {

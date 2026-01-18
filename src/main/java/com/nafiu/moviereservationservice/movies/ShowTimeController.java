@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/show-times",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v1/show-times",produces = MediaType.APPLICATION_JSON_VALUE)
 public class ShowTimeController {
 
     private final ShowTimeService service;

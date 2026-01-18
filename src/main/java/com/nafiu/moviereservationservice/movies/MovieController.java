@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/movies", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v1/movies", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Movie")
 public class MovieController {
     private final MovieService movieService;
