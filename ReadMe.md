@@ -20,8 +20,14 @@ This service creates a restful API for movie reservation. Here are the key funct
 ## Run Locally
 ### Docker
 This method requires that docker is installed. Change the environment variables for AWS credentials.
+
+Build image
 ```bash
- docker compose up
+docker build -t movie-api .  
+```
+Run service
+```bash
+docker compose up
 ```
 
 ### Local OS
